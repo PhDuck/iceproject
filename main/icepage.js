@@ -2,7 +2,7 @@
 // lets make some fuckin code boys
 
 var fail = 0;
-var GalleryRegex = /\w+(?=[^/]*$)/gm; // i hate regex
+var GalleryRegex = /\w+(?=[^/]*$)/gm; // I hate regex
 
 (function () { //this is pretty hacky- if you can, figure out how to do this less hacky u get 10 imaginary points
     var th = document.getElementsByTagName("body")[0];
@@ -46,7 +46,7 @@ function favoritesPage(){
 				.append(a);
 			return li;
 		}
-		
+
 		var cachedFavePageArray;
 		var spinner = $('<img src="//s.imgur.com/images/loaders/ddddd1_181817/48.gif" original-title="">')
 			.css("margin-left", "auto")
@@ -56,7 +56,7 @@ function favoritesPage(){
 		var loadWrapper = $("<div/>");
 			loadWrapper.append(spinner)
 			.css("background-color", "#181817");
-			
+
 		var imageList = $("#imagelist > div.posts.sub-gallery.br5.first-child");
 		function makeListListener(el, tag) {
 			el.click(function() {
@@ -90,7 +90,7 @@ function favoritesPage(){
 			//console.log(currentTag);
 			//console.log(!currentTag);
 			var current = $('<div class="combobox-header-current bold">current: <div class="combobox-current green">' + (currentTag ? currentTag.name :  "all")+ '</div></div>');
-			
+
 			if (!currentTag) { // no tag selected. this is the default scenario for page load
 				for (var i = 0; i < allTags.length; i++) {
 					var li = makeListItem(true, allTags[i].name);
@@ -110,15 +110,15 @@ function favoritesPage(){
 				}
 				var allListener = makeListItem(true, "all");
 				allListener.click(function() {
-					window.location.href = "http://imgur.com/account/favorites";
+					window.location.href = "https://imgur.com/account/favorites";
 				});
 				list.append(allListener);
 			}
-			
+
 			var options = $('<div class="options"></div>')
 				.append(current)
 				.append(list);
-			
+
 			var selection = $('<div class="selection"></div>');
 			var selectionSpan = $('<span class="name">'+ (currentTag ? currentTag.name :  "all")  + '</span>')
 				.click(function(e) {
@@ -126,16 +126,16 @@ function favoritesPage(){
 					options.css("height: 102px");
 					e.stopPropagation();
 				});
-				
+
 			selection.append(selectionSpan);
-			
+
 			tagSortCombo
 				.append(selection)
 				.append(options)
 				.append($('<input type="hidden" name="tags" value="' + (currentTag ? currentTag.name :  "all" ) + '">'))
 				.css("text-align", "left")
 				.css("margin-left", "10px")
-			
+
 			imgurSentence.append(tagSortCombo);
 			imgurSentence.append($('<div class="sort-options"></div>'));
 		}
@@ -147,7 +147,7 @@ function favoritesPage(){
 // This function is run on every page that isn't the favorites page.
 function galleryPage() {
 	makeTagMenu(false);
-	
+
 	// this is the proest ux code btw
 	// By default, if the post is favorited, the tag menu displays on page after a second.
 	// Once the user scrolls the menu into view, it will set a timeout for 2 seconds to make the menu disappear.
@@ -174,7 +174,7 @@ function galleryPage() {
 	}
 
 	var hoverTimeout = window.setTimeout(cool, 500);
-	$(".favorite-image").hover( 
+	$(".favorite-image").hover(
 		function(e) {
 			if ($(".favorite-image").hasClass("favorited")) {
 				refreshTags();
@@ -205,7 +205,7 @@ function galleryPage() {
 		}, 100);
 	});
 
-	$("#iceTagMenu").hover( 
+	$("#iceTagMenu").hover(
 		function(e) {
 			//console.log("hovered");
 			if (hoverTimeout) {
@@ -225,13 +225,13 @@ function galleryPage() {
 		$("#iceTagMenu").hide();
 	});
 	// end of pro ux code. seriously, like why dont people spend a lot of time on this, its kinda fun.
-	
+
 	var target = document.querySelector('#inside > div.left.post-pad > div.post-container > div.post-images');
-	if (target) { // this is kinda dirty. should just check if the page is a gallery page first 
+	if (target) { // this is kinda dirty. should just check if the page is a gallery page first
 		var observer = new MutationObserver(function(mutations) {
 			//console.log("ok");
 			refreshTags();
-			
+
 			//reset this shit and hide menu just in case
 			$("#iceTagMenu").hide();
 			if (hoverTimeout) {
@@ -247,7 +247,7 @@ function galleryPage() {
 
 function getAllFavePosts(callback) {
 	function getPostsFromPage(pageNum, allFaves) {
-		$.get("http://imgur.com/account/favorites/newest/page/" + pageNum + "/miss?scrolled", function(htmlz) {
+		$.get("https://imgur.com/account/favorites/newest/page/" + pageNum + "/miss?scrolled", function(htmlz) {
 			var html = document.createElement("document");
 			html.innerHTML = htmlz;
 			var allPostsOnPage = html.getElementsByClassName("post");
@@ -284,7 +284,7 @@ function getFavoritesByTag(allHtmlFavePages, tag, callback) {
 					}
 				}
 			}
-			
+
 		}
 		callback(result);
 	});
@@ -349,7 +349,7 @@ function refreshTags() {
 		// get post's tags
 		msgBg("getPost", {"id": getGalleryId()}, function(resp) {
 			var post = resp;
-			
+
 			// for each tag in alltags, go through and create each one. if any of them are on the post, check them.
 			var newTagElements = [];
 			for(var i = 0; i < allTags.length; i++) {
@@ -364,7 +364,7 @@ function refreshTags() {
 				newTagElements.push(makeTag(checked, allTags[i].name, allTags[i].num));
 			}
 			// clear tags
-			$("#iceTagList").empty(); 
+			$("#iceTagList").empty();
 
 			// add to dom
 			$("#iceTagList").append(newTagElements);
@@ -373,7 +373,7 @@ function refreshTags() {
 				height += newTagElements[i].outerHeight(true); //todo: figure out how to not hardcode this. initial version i had had bugs.
 				//console.log();
 			}
-			
+
 			$("#iceTagList").height(height + "px");
 		});
 	});
@@ -388,7 +388,7 @@ function makeEditMenu() {
 		.append($("<p>Rename and delete tags here! :D</p>"));
 	var table = $("<table/>");
 	var tableScrollWrap = $('<div class="iceScroll"></div>');
-	
+
 	//note: if you're wondering why I don't just have this take tagname, i wanted it to point to the tag
 	// reference, just in case something changed.
 	function makeCleanup(tag, nameCol) {
@@ -398,14 +398,14 @@ function makeEditMenu() {
 		}
 		return cleanupFunc;
 	}
-	
+
 	var cleanups = [];
-	
+
 	editMenu.click(function(e) {
 		e.stopPropagation();
 		runCleanups(); // if they click outside, close all inputs or open prompts.
 	});
-	
+
 	function runCleanups() {
 		for(var i = 0; i < cleanups.length; i++) {
 			cleanups[i]();
@@ -414,17 +414,17 @@ function makeEditMenu() {
 	var dickbutt = $('<div class="db"></div>');
 	editMenu.append(dickbutt);
 	msgBg("getAllTags", "", function(allTags) {
-		
+
 		for (var i = 0; i < allTags.length; i++) {
 			var row = $("<tr/>");
 			var nameCol = $("<td></td>");
-			
+
 			nameCol.text(allTags[i].name);
 			//console.log(nameCol);
-			var editBtn = $('<img src="http://i.imgur.com/bugnXFI.png">');
-			var delBtn = $('<img src="http://i.imgur.com/ktWQi2y.png">');
+			var editBtn = $('<img src="https://i.imgur.com/bugnXFI.png">');
+			var delBtn = $('<img src="https://i.imgur.com/ktWQi2y.png">');
 			var btnCol = $("<td/>");
-			
+
 			btnCol
 				.append(delBtn)
 				.append(editBtn);
@@ -441,7 +441,7 @@ function makeEditMenu() {
 					//add self to cleanup
 					cleanups.push(makeCleanup(tag, td));
 					var renameInput = $('<input type="text">');
-					
+
 					renameInput.keypress(function (e) {
 						//console.log(tag);
 						var val = renameInput.val();
@@ -453,14 +453,14 @@ function makeEditMenu() {
 								if (resp !== "no lol") { //we can assume success, and we've been returned a tag obj
 									// success
 									tag = resp; //update stored obj.
-									td.text(tag.name);						
+									td.text(tag.name);
 								} else {
 									// tell the user they're dumb or being dumb
 								}
 							});
 						}
 					});
-					
+
 					renameInput.click(function(e) {
 						e.stopPropagation(); //this is for the click outside code
 					});
@@ -482,7 +482,7 @@ function makeEditMenu() {
 				};
 				return handler;
 			}(nameCol, allTags[i]));
-			
+
 			delBtn.click(function(tag, tr, td) {
 
 				var handler = function(e) {
@@ -492,7 +492,7 @@ function makeEditMenu() {
 					//add self to cleanup
 					cleanups.push(makeCleanup(tag, td));
 					var renameInput = $('<input type="text">');
-					
+
 					//show delete confirm
 					var yes = $("<b> yes </b>");
 					yes.click(function(e) {
@@ -528,9 +528,9 @@ function makeEditMenu() {
 		} else {
 			tableScrollWrap.append(table)
 		}
-		
-		
-		
+
+
+
 		editMenu.append(tableScrollWrap);
 		var nothin = $("<p style='position:absolute; margin-left: 280px; margin-top: 5px;'>nothing down here.</p>");
 		editMenu.append(nothin);
@@ -546,7 +546,7 @@ function makeEditMenu() {
 				nothin.text("nothing down here?");
 			}, 2000);
 		}, dbTimeout);
-		
+
 		closeButton.click(function() {
 			editOverlay.remove();
 		});
@@ -568,17 +568,17 @@ function isScrolledIntoView(elem)
 }
 
 function makeTagMenu(includeTags) {
-	var iceTagMenuWrapper = 
+	var iceTagMenuWrapper =
 		$(	'<div id="iceTagMenuWrapper"></div>');
-	var iceTagMenu = 
+	var iceTagMenu =
 		$(	'<div id="iceTagMenu">' +
 				'<div id="iceTagList"></div>' +
 			'</div>');
-			
+
 	if (includeTags) {
 		refreshTags();
 	}
-	
+
 	var iceTagInput = $('<input id="newTag" type="text" placeholder= "new tag? :P">');
 	iceTagInput.keypress(function (e) {
 		if (e.which == 13) {
@@ -616,7 +616,7 @@ function makeTagMenu(includeTags) {
 				});
 			} else {
 				whale = fail % 7;
-				
+
 				if (whale === 0) {
 					$("#newTag").attr("placeholder", "what");
 				} else if (whale === 1) {
@@ -633,7 +633,7 @@ function makeTagMenu(includeTags) {
 					$("#newTag").attr("placeholder", "wow");
 				}
 				fail++;
-				
+
 				window.setTimeout(function() {
 					$("#newTag").attr("placeholder", "new tag? :P");
 				}, 500);
